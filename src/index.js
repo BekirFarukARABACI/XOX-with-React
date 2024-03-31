@@ -38,10 +38,29 @@ function XoxGameComponent() {
       if (newGames[index] == "") {
         newGames[index] = mark;
         setGames(newGames)
+
+        let e = isMoveFinish(newGames);
+        if(e){
+          setMessage("Oyun Berabere")
+          setIsGameFinish(true)
+          return
+        }
+
         mark == "X" ? setMark("O") : setMark("X")
         setMessage("Hamle Sırası : " + (mark == "X" ? "O" : "X"))
       }
     }
+  }
+
+  function isMoveFinish(newGames){
+    for (let i = 0; i < newGames.length; i++) {
+      const element = newGames[i];
+      if (element === "") {
+        return false
+      }
+    }
+
+    return true
   }
 
   return (
