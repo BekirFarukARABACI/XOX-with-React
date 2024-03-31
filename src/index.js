@@ -9,6 +9,7 @@ function XoxGameComponent() {
   const [mark, setMark] = useState("X");
   const [message, setMessage] = useState("");
   const [isGameFinish, setIsGameFinish] = useState(false);
+  const [gameMove, setGameMove] = useState([])
 
   useEffect(() => {
     newGame()
@@ -30,6 +31,7 @@ function XoxGameComponent() {
     setIsGameFinish(false);
     setMark("X")
     setMessage("Hamle Sırası : " + mark)
+    setGameMove([])
   }
 
   const markGame = (index) => {
@@ -38,16 +40,17 @@ function XoxGameComponent() {
       if (newGames[index] == "") {
         newGames[index] = mark;
         setGames(newGames)
+        setGameMove((val) => [...val, newGames])
 
         let e = isMoveFinish(newGames);
-        if(e){
+        if (e) {
           setMessage("Oyun Berabere")
           setIsGameFinish(true)
           return
         }
 
         let r = isGameOver(newGames);
-        if(r){
+        if (r) {
           setMessage("Oyunun Kazananı : " + mark)
           setIsGameFinish(true)
           return
@@ -59,47 +62,47 @@ function XoxGameComponent() {
     }
   }
 
-  const isGameOver = (newGames) =>{
-    if(newGames[0] != "" && 
-    newGames[0] === newGames[1] && 
-    newGames[0] === newGames[2]){
+  const isGameOver = (newGames) => {
+    if (newGames[0] != "" &&
+      newGames[0] === newGames[1] &&
+      newGames[0] === newGames[2]) {
       return true
     }
-    if(newGames[3] != "" && 
-    newGames[3] === newGames[4] && 
-    newGames[3] === newGames[5]){
+    if (newGames[3] != "" &&
+      newGames[3] === newGames[4] &&
+      newGames[3] === newGames[5]) {
       return true
     }
-    if(newGames[6] != "" && 
-    newGames[6] === newGames[7] && 
-    newGames[6] === newGames[8]){
-      return true
-    }
-
-    if(newGames[0] != "" && 
-    newGames[0] === newGames[3] && 
-    newGames[0] === newGames[6]){
-      return true
-    }
-    if(newGames[1] != "" && 
-    newGames[1] === newGames[4] && 
-    newGames[1] === newGames[7]){
-      return true
-    }
-    if(newGames[2] != "" && 
-    newGames[2] === newGames[5] && 
-    newGames[2] === newGames[8]){
+    if (newGames[6] != "" &&
+      newGames[6] === newGames[7] &&
+      newGames[6] === newGames[8]) {
       return true
     }
 
-    if(newGames[0] != "" && 
-    newGames[0] === newGames[4] && 
-    newGames[0] === newGames[8]){
+    if (newGames[0] != "" &&
+      newGames[0] === newGames[3] &&
+      newGames[0] === newGames[6]) {
       return true
     }
-    if(newGames[2] != "" && 
-    newGames[2] === newGames[4] && 
-    newGames[2] === newGames[6]){
+    if (newGames[1] != "" &&
+      newGames[1] === newGames[4] &&
+      newGames[1] === newGames[7]) {
+      return true
+    }
+    if (newGames[2] != "" &&
+      newGames[2] === newGames[5] &&
+      newGames[2] === newGames[8]) {
+      return true
+    }
+
+    if (newGames[0] != "" &&
+      newGames[0] === newGames[4] &&
+      newGames[0] === newGames[8]) {
+      return true
+    }
+    if (newGames[2] != "" &&
+      newGames[2] === newGames[4] &&
+      newGames[2] === newGames[6]) {
       return true
     }
 
@@ -107,7 +110,7 @@ function XoxGameComponent() {
   }
 
 
-  function isMoveFinish(newGames){
+  function isMoveFinish(newGames) {
     for (let i = 0; i < newGames.length; i++) {
       const element = newGames[i];
       if (element === "") {
@@ -116,6 +119,10 @@ function XoxGameComponent() {
     }
 
     return true
+  }
+
+  const setThatGameMove = (game) => {
+    setGames(game)
   }
 
   return (
@@ -138,6 +145,16 @@ function XoxGameComponent() {
             </div>
           ))}
         </div>
+        <hr />
+
+        {gameMove.map((game, index) => (
+          <button
+            onClick={()=> setThatGameMove(game)}
+            className='btn btn-primary mx-2 mt-2'
+            key={index}>
+            {index + 1} . Hamle
+          </button>
+        ))}
       </div>
     </>
   )
