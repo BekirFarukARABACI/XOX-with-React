@@ -32,6 +32,18 @@ function XoxGameComponent() {
     setMessage("Hamle Sırası : " + mark)
   }
 
+  const markGame = (index) => {
+    if (!isGameFinish) {
+      const newGames = [...games];
+      if (newGames[index] == "") {
+        newGames[index] = mark;
+        setGames(newGames)
+        mark == "X" ? setMark("O") : setMark("X")
+        setMessage("Hamle Sırası : " + (mark == "X" ? "O" : "X"))
+      }
+    }
+  }
+
   return (
     <>
       <div className='container text-center'>
@@ -39,12 +51,15 @@ function XoxGameComponent() {
         <h2 className='alert alert-warning'>
           {message}
         </h2>
-        <button className='btn btn-outline-primary w-100'>
+        <button className='btn btn-outline-primary w-100'
+          onClick={newGame}>
           Yeni Oyun
         </button>
         <div className='row mt-2'>
           {games.map((game, index) => (
-            <div key={index} className='col-4 box'>
+            <div key={index}
+              className='col-4 box'
+              onClick={() => markGame(index)}>
               {game}
             </div>
           ))}
